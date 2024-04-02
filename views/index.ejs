@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars</title>
+</head>
+<body>
+
+                <div class="d-flex justify-content-between">
+                    <nav class="breadcrumb">
+                        <p class="breadcrumb-item fw-bold">Cars</p>
+                        <span class="breadcrumb-item active" aria-current="page">List Car</span>
+                    </nav>
+                </div>
+                
+                <!--! CONTENT HEADER  -->
+                <div class="d-flex justify-content-between align-items-center my-3 my-md-0">
+                    <div class="content_header-title">
+                        <h5 class="fw-bold">List Cars</h5>
+                    </div>
+                    <div class="content_header-button">
+                        <a href="list-car/add"
+                            class="d-block w-100 py-2 px-4 nav-link rounded-0 primary-color text-white fw-bold text-center">
+                            <i><img src="/assets/images/fi_plus.svg" alt="add-icon" /></i>
+                            Add New Car</a>
+                    </div>
+                </div>
+                
+                <!--! CONTENT FILTER  -->
+                <div class="d-flex justify-content-start align-items-center">
+                    <ul class="nav justify-content-center gap-2">
+                        <li class="nav-item">
+                            <a class="nav-link py-2 rounded-0 primary-outline-nonactive <% if (capacity === undefined) { %>active<% } %>"
+                                href="list-car" aria-current="page">All</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-2 rounded-0 primary-outline-nonactive <% if (capacity === '2') { %>active<% } %>"
+                                href="list-car?capacity=2">Small</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-2 rounded-0 primary-outline-nonactive <% if (capacity === '4') { %>active<% } %>"
+                                href="list-car?capacity=4">Medium</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-2 rounded-0 primary-outline-nonactive <% if (capacity === '6') { %>active<% } %>"
+                                href="list-car?capacity=6">Large</a>
+                        </li>
+                    </ul>
+                </div>
+    
+    <script type="text/javascript" src="scripts/binar.js"></script>
+    <script type="text/javascript" src="scripts/app.example.js"></script>
+    <script type="text/javascript" src="scripts/car.example.js"></script>
+    <script type="text/javascript" src="scripts/main.example.js"></script>
+</body>
+</html>
