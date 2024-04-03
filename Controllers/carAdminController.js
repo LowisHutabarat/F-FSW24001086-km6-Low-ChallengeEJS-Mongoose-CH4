@@ -1,13 +1,52 @@
 const { Car } = require("../models");
-
+const { Op } = require('sequelize');
 const carPage = async (req, res) => {
     try {
-        const cars = await Car.findAll();
-        console.log(cars);
+        const capacity_value = req.query.capacity || '0';
+		const searchTerm = req.query.search || '';
+
+		const queryObj = { ...req.query };
+		const excludedColumns = ['page', 'sort', 'limit'];
+
+		excludedColumns.forEach((el) => delete queryObj[el]);
+
+		const queryStr = JSON.stringify(queryObj);
+
+		//! Advance Filter
+		const query = {
+			[Op.or]: [{ gte: { ...JSON.parse(queryStr) } }, { gt: { ...JSON.parse(queryStr) } }, { lte: { ...JSON.parse(queryStr) } }, { lt: { ...JSON.parse(queryStr) } }],
+		};
+
+		//! Sorting
+		const sortBy = req.query.sort ? req.query.sort.split(',').join(' ') : 'capacity';
+		query.order = [sortBy];
+
+		//! Search by capacity
+		query.where = {
+			capacity: {
+				[Op.gte]: capacity_value,
+			},
+			name: {
+				[Op.iLike]: `%${searchTerm}%`,
+			},
+		};
+
+		//! Pagination
+		const page = req.query.page * 1 || 1;
+		const limit = req.query.limit * 1 || 10;
+		const offset = (page - 1) * limit;
+
+		query.offset = offset;
+		query.limit = limit;
+
+		const cars = await Car.findAll(query);
+
         res.render("cars/index.ejs", {
-            cars,
-            
-            message: req.flash("message", ""),
+            capacity: req.query.capacity,
+			searchTerm,
+			cars,
+			url: '',
+			message: req.flash('message', ''),
         });
     } catch (error) {
         res.render("error.ejs", {
@@ -65,11 +104,15 @@ const editCarPage = async (req, res) => {
 
 const editCar = async (req, res) => {
     try {
-        await Car.update(req.body, {
-            where: {
-                id: req.params.id,
-            },
-        });
+        const data = req.body;
+        const mobil = await Car.findByPk(req.params.id);
+        const foto = './images/' + req.file.filename;
+		    data.image = req.file ? foto : mobil.image;
+        await Car.update(data, {
+                where: {
+                    id: req.params.id,
+                },
+            });
         req.flash("message", "Car updated successfully.");
         res.redirect("/cars");
     } catch (error) {

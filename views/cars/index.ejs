@@ -60,10 +60,9 @@
                             </li>
                         </ul>
                         <div class="d-flex ">
-                            <form class="d-flex" role="search">
-                                <input class="form-control" name="name" type="search" placeholder="Search"
-                                    aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            <form class="d-flex" role="search" id="search-form">
+                                <input class="form-control " type="search" placeholder="Search" aria-label="Search" id="search-input">
+                                <button class="btn btn-outline-success" type="submit" id="search-btn">Search</button>
                             </form>
                             <ul class="navbar-nav dropdown__profile">
                                 <li class="nav-item dropdown">
@@ -128,17 +127,17 @@
 
                         <div class="d-flex button__group">
                             <form role="search"></form>
-                            <a href="#" class="btn button__secondary me-3">All</a>
-                            <a href="#" class="btn button__secondary me-3">Small</a>
-                            <a href="#" class="btn button__secondary me-3">Medium</a>
-                            <a href="#" class="btn button__secondary me-3">Large</a>
+                            <a href="/cars?capacity=0" class="btn button__secondary me-3">All</a>
+                            <a href="/cars?capacity=2" class="btn button__secondary me-3">Small</a>
+                            <a href="/cars?capacity=4" class="btn button__secondary me-3">Medium</a>
+                            <a href="/cars?capacity=6" class="btn button__secondary me-3">Large</a>
                         </div>
                         <!-- body -->
                         <div class="row mt-4">
                             <% cars.map((car)=> {%>
                                 <div class="col-lg-4 my-2">
                                     <div class="card px-2 py-4">
-                                        <img height="222px" src="./public/assets/<%= car.image %>"
+                                        <img height="222px" src="/<%= car.image %>"
                                             class="card-img-top text-center"
                                             style="aspect-ratio: 2/1; object-fit: contain;">
                                         <div class="card-body">
@@ -202,6 +201,19 @@
     </div>
 </section>
 
+<script>
+    const searchForm = document.querySelector('#search-form');
+    const searchInput = document.querySelector('#search-input');
+    const resultsContainer = document.querySelector('.results-container');
+
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const searchTerm = searchInput.value;
+
+        window.location.href = `http://localhost:8000/cars?search=${searchTerm}`;
+    });
+</script>
 
 <!-- Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js " integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3 " crossorigin="anonymous "></script>

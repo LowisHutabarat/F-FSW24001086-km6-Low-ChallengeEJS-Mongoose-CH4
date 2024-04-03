@@ -1,5 +1,5 @@
 require("dotenv").config()
-
+const cors = require("cors");
 const express = require("express");
 const morgan = require("morgan");
 const flash = require("connect-flash");
@@ -11,7 +11,8 @@ const PORT = process.env.PORT || "8000"
 
 const app = express()
 
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 app.set("views", __dirname + "/views");
