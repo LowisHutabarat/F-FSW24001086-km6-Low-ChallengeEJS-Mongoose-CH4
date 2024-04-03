@@ -1,30 +1,32 @@
 const { Car } = require("../models");
 
-const createCar = async (req,res) => {
-    // desctructing Object
-    const {name, rentPerDay, capacity, image} = req.body
+const createCar = async (req, res) => {
+    // Destructuring object
+    const { name, rentPerDay, capacity, image } = req.body;
 
     try {
-        const newCar = await Customer.create({
+        const newCar = await Car.create({
             name,
             rentPerDay,
             capacity,
             image
-        })
+        });
 
         res.status(200).json({
             status: "success",
-            data : {
+            data: {
                 newCar
             }
-        })
+        });
     } catch (err) {
-        console.log(err.message)
+        console.error(err.message); // Log the error message to console for debugging
+        res.status(500).json({
+            status: "error",
+            message: "Failed to create car"
+        });
     }
+};
 
-}
-
-
-    module.exports =  {
-        createCar,
-    }
+module.exports = {
+    createCar,
+};
